@@ -1,5 +1,5 @@
 \documentclass[%
- preprint,
+ reprint,
  amsmath,amssymb,
  aps,
 ]{revtex4-2}
@@ -258,6 +258,65 @@ This reflects the situation where $\Delta$ is high enough that fluctuations with
 \end{figure}
 This is plotted in \cref{fig:Cliff}, which shows the cliff-edge along which $\omega$ is sufficiently smaller than $\Delta$.
 In this regime, Johnson noise no longer becomes an issue for these qubits.
+
+\subsection{Fitting the cliff}
+
+We are interested in characterising the $\Delta$-$\omega$ curve that shows where the superconducting low-noise behaviour gives way to the normal state high-noise behaviour.
+\Cref{fig:cliffview} shows the cliff in the computation we've been looking at, filtered to only include $\tau$ large enough to make the material look clean.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=\linewidth]{sharpcliffview}
+	\caption{A view of the cliff for clean materials only} \label{fig:cliffview}
+\end{figure}
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=\linewidth]{exampleconsttplot}
+	\caption{An example slice of the 3D plot for constant temperature} \label{fig:exConstTPlot}
+\end{figure}
+
+\Cref{fig:exConstTPlot} shows a slice of \cref{fig:cliffview} for constant temperature.
+In it the cliff is visible as the jump around $\frac{\omega}{T_c} \approx 0.001$.
+Because \cref{fig:exConstTPlot} is plotted for a relatively high temperature, the $\omega$ at which the cliff occurs is low compared to $T_c$;
+for lower temperatures the cliff would occur at higher frequencies.
+
+We can demarcate the lower boundary of this cliff as the lowest frequency at which there is a discontinuity in the derivative of the log-log plot.
+This is plotted in \cref{fig:exConstTPlotWithLine}.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=\linewidth]{exampleconsttplotwithline}
+	\caption{\Cref{fig:exConstTPlot} with a line showing the lower boundary of the cliff.} \label{fig:exConstTPlotWithLine}
+\end{figure}
+
+By iterating this process over all $T$, we can estimate the function $\omega_{lc}(T)$.
+Lastly, we are really interested in the function $\omega_{lc}(\Delta)$, so we use $\frac{\Delta}{T_c} = 3.06 \sqrt{1 - t}$.
+
+% TODO This plot is a little bit bad because of the multiple tau so clean that up in future plot.
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=\linewidth]{cleancliff}
+	\caption{The points $\omega_lc(\Delta)$ estimated to be the bottom edge of the cliff.} \label{fig:cleancliff}
+\end{figure}
+
+We can see in \cref{fig:cleancliff} that the cliff does not follow a simple power law near the highest and lowest $\Delta$, but appears to do so for intermediate values of $\Delta$.
+% TODO rewrite this to be more precise. the cluster process in the notes is probably insufficiently good on its own, but should be easy to clean up.
+Fitting the expression $\omega_lc = A \Delta^B$ on only the central portion of \cref{fig:cleancliff} returns parameter values
+\begin{align} %Todd because I got lazy with Delta this is technically slightly wrong, but easy to clean up later.
+	A &= 0.452107 \\
+	B &= 1.34246.
+\end{align}
+
+This expression is plotted in \cref{fig:fittedcliff}, as the curve in blue.
+Intruigingly, the exponent $B$ is nearly the simple fraction $\frac{4}{3}$.
+%Todo think about this
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=\linewidth]{fittedcliff}
+	\caption{\Cref{fig:cleancliff} with fits, described in the text of the notes.} \label{fig:fittedcliff}
+\end{figure}
 
 
 \section{Non-equilibrium state} \label{sec:nonequilibrium}
