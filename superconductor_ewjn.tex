@@ -1,5 +1,5 @@
 \documentclass[%
- reprint,
+ preprint,
  amsmath,amssymb,
  aps,
 ]{revtex4-2}
@@ -12,7 +12,11 @@
 
 \newcommand{\vf}{v_{\mathrm{F}}}
 \newcommand{\qf}{q_{\mathrm{F}}}
-
+\newcommand{\pf}{p_{\mathrm{F}}}
+\newcommand{\epsF}{\epsilon_{\mathrm{F}}}
+\newcommand{\debye}{\omega_{\mathrm{D}}}
+\newcommand{\corr}{\mu^{\ast}}
+\newcommand{\dof}{\rho}
 \usepackage{cleveref}
 
 \begin{document}
@@ -320,15 +324,73 @@ Intruigingly, the exponent $B$ is nearly the simple fraction $\frac{4}{3}$.
 
 
 \section{Non-equilibrium state} \label{sec:nonequilibrium}
-We begin with an introduction to the non-equilibrium state, and add a description of what it might look like physically.
-Move on to add some description of what's going on in Owen-Scalapino\cite{OwenScalapino}.
+We must calculate the superconducting gap in the case where a material is kept out of equilibrium by quasiparticle injection.
+This quasiparticle injection occurs via multiple physical mechanisms, such as shining photons on a superconducting surface as in Gao et. al\cite{Gao2008}, or applying a bias voltage as studied in Catelani et. al\cite{Catelani2010}.
+Both Gao and Catelani obtain via different methods results analogous to Owen and Scalapino\cite{OwenScalapino}, which we summarise here.
+% TODO Revisit with more detail about how Catelani is probably a more rigorous derivation of the OS results.
 
-\section{Conclusion} \label{sec:conclusion}
+Owen and Scalapino derive the usual BCS gap equation, but by constraining quasiparticle number end up with an effective quasiparticle distribution function
+\begin{equation}
+	f_k = \frac{1}{1 + \exp[\beta \left(E_k - \corr \right)]}.
+\end{equation}
+This results in a modified gap equation:% TODO Maybe add more derivation so that people don't have to go back to BCS to understand.
+\begin{equation}
+	\left[ N(0) V \right]^{-1} = \int_{- \omega_D}^{\omega_D} \frac{\dd{\epsilon_k}}{\sqrt{\Delta^2 + \epsilon_k^2}} \tanh{\frac{\sqrt{\Delta^2 + \epsilon_k^2} - \corr}{2 T}}. \label{eq:gap}
+\end{equation}
+Owen and Scalapino also characterise the excess quasiparticle density $n$ in units of $4 N(0) \Delta_0$:
+\begin{equation}
+	n = \frac{1}{\Delta_0} \int_0^\infty \dd{\epsilon} \left( \frac{1}{1 + \exp(\frac{\sqrt{\Delta^2 + \epsilon_k^2} - \corr}{T})} - \frac{1}{1 + \exp(\frac{\sqrt{\Delta^2 + \epsilon_k^2}}{T})} \right). \label{eq:n}
+\end{equation}
+
+We are going to be interested in the case where we have a fixed $n$. % Todo expand on this%
+This means that \eqref{eq:gap} and \eqref{eq:n} form two coupled integral equations in $\Delta$ and $\corr$, to be solved numerically.
+\Cref{fig:osFig1Reproduction} plots $\Delta(T)$ for different $n$, mirroring Figure 1 in Owen and Scalapino\cite{OwenScalapino}. % todo replace with cleaner plot that doesn't have the nonphysical section%.
 
 \begin{figure}[b]
 	\includegraphics[width=\linewidth]{osGapVsTReproduction}
-	\caption{\label{fig:osFig1Reproduction} A reproduction of Figure 1 in Owen-Scalapino\cite{OwenScalapino}.}
+	\caption{\label{fig:osFig1Reproduction} Unitless $\Delta(T)$ for different $n$, calculated for $N(0)V = 0.2$ and $\debye = 100$ \cite{OwenScalapino}.}
 \end{figure}
+
+These results are constrained further by the material's energetics;
+as Owen and Scalapino discuss, the solutions of \eqref{eq:gap} and \eqref{eq:n} may not be energetically favourable, and for increasing $n$ the critical temperature $T_c(n)$ will decrease.\cite{OwenScalapino}
+Determining this decrease requires a model of the particular method by which the quasiparticle injection occurs, as the normal state free energy may change as well.
+However, here we use Owen and Scalapino's approximate relation $T_c(n) \approx (1 - 4n) T_c(n = 0)$, as that is sufficiently descriptive for this study.
+
+\subsection{Electromagnetic response}
+To find the noise outside the surface, we must find the electromagnetic response function of the superconductor using the gap found above.
+Because we are interested in a wide range of impurity concentrations in the supercondcutor, we use the electromagnetic response function first derived by Nam\cite{Nam1967}, which extends the previous models by Mattis and Bardeen~\cite{Mattis} and Abrikosov, Dzyaloshinskii and Gorkov\cite{AGD}.
+
+The response function in Nam depends on the material's plasma frequency $\omega_p$, an impurity collision frequency $\tau$, the Fermi velocity $\vf$, and the gap $\Delta$.
+For our noise calculation, we will need this function over the Fourier momentum $q$ and frequency $\omega$.
+To simplify the notation, we define the following dimensionless quantities, keeping the variable $\mu$:
+\begin{align}
+	\xi &= \frac{\omega}{\Delta} \\
+	\xi' &= \frac{\omega'}{\Delta} \\
+	\nu &= \frac{1}{\tau \Delta} \\
+	\kappa &= \frac{q \vf}{\Delta} \\
+	t &= \frac{T}{\Delta} \\
+	\sigma_0 &= \frac{n e^2}{m \Delta} \\
+	\mu &= \frac{\corr}{\Delta}
+\end{align}
+Because our model includes modified quasiparticle distribution functions, we must modify these terms in the response function as well as the gap.
+These appear in the $\tanh$ functions as an effective chemical potential. % TODO Write this out a bit more, sketching out the actual derivation.
+Then the expression for the conductivity at arbitrary momentum and frequency in Nam\cite{Nam1967}, with the modified distribution function, becomes:
+\begin{equation}
+	\sigma(\kappa, \xi) = -i \frac{3 \sigma_0}{4} \frac{1}{\xi}\left[\int_{1 - \xi}^{1}\dd{\xi} \tanh(\frac{\xi + \xi' - \mu}{2 t}) I_1 + \int_{1}^{\infty} \dd{\xi'} \left( \tanh(\frac{\xi + \xi' - \mu}{2t}) I_1  - \tanh(\frac{\xi' - \mu}{2t})I_2 \right) \right] \label{eq:nonequilibrium:nam}
+\end{equation}
+with
+\begin{align}
+	I_1 &= F(\kappa, \Re[\sqrt{(\xi + \xi')^2 - 1} - \sqrt{\xi'^2 - 1}]) (g + 1) \nonumber\\
+	&\quad + F(\kappa, \Re[-\sqrt{(\xi + \xi')^2 - 1} - \sqrt{\xi'^2 - 1}]) (g - 1) \\
+	I_2 &= F(\kappa, \Re[\sqrt{(\xi + \xi')^2 - 1} - \sqrt{\xi'^2 - 1}]) (g + 1) \nonumber\\
+	&\quad + F(\kappa, \Re[\sqrt{(\xi + \xi')^2 - 1} + \sqrt{\xi'^2 - 1}]) (g - 1) \\
+	F(\kappa, E) &= \frac{1}{\kappa} \left[2 S(E) + (1 - S(E)^2)\ln(\frac{S(E) + 1}{S(E) - 1})\right]  \\
+	S(\kappa, E) &= \frac{1}{\kappa} \left(E - i \left(\Im[\sqrt{(\xi + \xi')^2 - 1} + \sqrt{\xi'^2 - 1}] + 2 \nu \right) \right) \\
+	g  &= \frac{\xi' \left( \xi + \xi'\right) + 1}{\sqrt{\xi'^2 - 1}\sqrt{(\xi + \xi')^2 - 1}}
+\end{align}
+We note here the similarity between \eqref{eq:nonequilibrium:nam} and the response functions in Catelini et. al\cite{Catelani2010}.
+
+\section{Conclusion} \label{sec:conclusion}
 
 \bibliography{bibliography}
 
