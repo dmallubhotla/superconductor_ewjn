@@ -35,11 +35,11 @@
 
 \maketitle
 
+\tableofcontents
+
 \section{Intro} \label{sec:intro}
-
 \section{Equilibrium state} \label{sec:equilibrium}
-
-\subsection{Qubit Relaxation Time Theory} \label{subsec:relaxtime}
+\subsection{Qubit Relaxation Time Formalism} \label{subsec:relaxtime}
 Physically, we are interested in the relaxation time of a qubit near the surface of the metal.
 Sufficiently close to the metal, such that the separation between qubit and metal is much smaller than the shortest dimension of the metallic body, we can approximate the metal as a half space.
 This defines a natural coordinate system, and we can allow the metal to take up all points with $z$-coordinate less than zero, extending to infinity in the $x$ and $y$ directions.
@@ -105,6 +105,7 @@ To keep~\eqref{eq:chi} accurate for sufficiently small $z$, appropriate changes 
 The quantities $\zeta_p$ and $\zeta_s$ are proportional to the surface impedances of the metal, derived for this case by Ford and Weber\cite{Ford1984}, and with more thorough discussion in~\cite{LandauLifshitzElectrodynamics}.
 The treatment in~\cite{QubitRelax} compares the difference between these expressions and the simpler Fresnel reflection coefficients.
 
+\subsection{Dielectric Function} \label{subsec:dielectric}
 \subsubsection{Normal state dielectric function} \label{subsubsec:lindharddielectric}
 The dielectric function $\epsilon(q, \omega)$, then, contains the information needed to describe the electromagnetic properties of the surface near the qubit.
 For the normal state, the dielectric function derived by Lindhard~\cite{Lindhard} used in~\cite{QubitRelax} describes the non-local electromagnetic response of a metal.
@@ -123,6 +124,14 @@ This is a general argument, and it should be expected that a superconducting die
 Because the Lindhard dielectric function's imaginary part vanishes above a cutoff $q_c\left(\omega\right)$ and has real part that goes as $\Re \epsilon_{\mathrm{Lindhard}} - 1 \sim \frac{1}{q^2}$, all of the integrals in $\eqref{eq:chi}, \eqref{eq:zp} and \eqref{eq:zs}$ converge.
 
 \subsubsection{Superconducting dielectric function} \label{subsubsec:namdielectric}
+
+TODO Expand this history
+\begin{itemize}
+  \item Mattis-Bardeen dielectric functions
+  \item AGD response functions
+  \item Summarise the results by Eliashberg and Nambu that Nam's forms come from
+\end{itemize}
+
 We use the expressions from Nam in~\cite{Nam1967} to represent the superconducting response function.
 This extends the previous models by Mattis and Bardeen~\cite{Mattis} and Abrikosov, Dzyaloshinskii and Gorkov\cite{AGD} to give expressions that allow for broader ranges of impurity values.
 
@@ -231,6 +240,7 @@ where the right hand side should be interpreted to choose the argument with the 
 This effectively forces the reflection coefficient to choose the Lindhard result above some crossover $q_{\mathrm{crossover}}$.
 Once again, unless $\frac{1}{z} \sim q_{\mathrm{crossover}}$, the inaccuracies this causes should be exponentially damped in $\chi_\perp^E$.
 
+\subsection{Equilibrium state results} \label{subsec:equilibrium:results}
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=\linewidth]{HighTempNam1}
