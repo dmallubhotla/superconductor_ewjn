@@ -12,9 +12,10 @@ CALC_DIR := calc
 ### Here we go
 #
 OUT_PDF:= $(PDF_DIR)/superconductor_ewjn.pdf
+ABSTRACT_PDF:= $(PDF_DIR)/abstract.pdf
 
 .PHONY: all
-all: $(OUT_PDF)
+all: $(OUT_PDF) $(ABSTRACT_PDF)
 
 ### How we do that
 #
@@ -37,6 +38,10 @@ FIGURES :=
 ## Making main.pdf and other pdfs
 #
 $(PDF_DIR)/superconductor_ewjn.pdf: superconductor_ewjn.tex $(MAIN_PDF_DEPS) | $(PDF_DIR) $(FIGURES)
+	$(LATEXMK) $(<F)
+	cp $(@F) $@
+
+$(PDF_DIR)/abstract.pdf: abstract.tex $(MAIN_PDF_DEPS)
 	$(LATEXMK) $(<F)
 	cp $(@F) $@
 
